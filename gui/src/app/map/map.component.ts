@@ -40,6 +40,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     // this.markerService.makeCapitalMarkers(this.map);
     this.shapeService.getStateShapes().subscribe(states => {
       this.states = states;
+      console.log('states ', this.states)
       this.initStatesLayer();
     });
     this.markerService.makeCapitalCircleMarkers(this.map);

@@ -10,7 +10,8 @@ export class ShapeService {
   constructor(private http: HttpClient) { }
 
   getStateShapes(): Observable<any> {
-    return this.http.get('/assets/data/usa-states-outlines.geojson')
+    // this.http.get('http://localhost:8000/countries/country/').subscribe((data) => console.log(data))
+    return this.http.get('http://localhost:8000/countries/country/')
   }
 
 }

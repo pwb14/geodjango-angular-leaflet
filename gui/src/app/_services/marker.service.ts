@@ -39,7 +39,7 @@ export class MarkerService {
             radius: MarkerService.ScaledRadius(c.properties.population, maxVal)
           }
         )
-        console.log(c)
+        // console.log(c)
         circle.bindPopup(this.popupService.makeCapitalPopup(c.properties));
         circle.addTo(map);
       }
