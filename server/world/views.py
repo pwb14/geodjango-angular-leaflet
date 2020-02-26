@@ -1,22 +1,24 @@
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 from django.core.serializers import serialize
+from django.core.cache import cache
+from rest_framework import viewsets
 
 from .models import WorldBorder
+from .serializers import WorldBorderSerializer
 
 # Create your views here.
 
 class CountriesDetailView(View):
     def get(self, request):
-        sm = serialize('geojson', WorldBorder.objects.all())
-        # return JsonResponse(sm, safe=False)
+        redis_key = 'counties'
+        countries = cache.get(redis_key)
+        print(WorldBorder.objects.filter(name='Liberia'))
+        sm = serialize('geojson', WorldBorder.objects.filter(name='Liberia'))
+        print(type(sm))
+        # sm = serialize('geojson', WorldBorder.objects.all())
         return HttpResponse(sm, content_type='json')
 
-
-def points_view(request):
-    points_as_geojson = serialize('geojson', Point.objects.all())
-    return HttpResponse(points_as_geojson, content_type='json')
-
-def wojewodztwa_view(request):
-    voivodeships_as_geojson = serialize('geojson', Voivodeship.objects.all())
-    return HttpResponse(voivodeships_as_geojson, content_type='json')
+class CountriesViewSet(viewsets.ModelViewSet):
+    queryset = WorldBorder.objects.all()
+    serializer_class = WorldBorderSerializer
